@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mpdemo2.mycondition.mapper.MyConditionMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.mpdemo2.mycondition.domain.MyCondition">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="conditionDate" column="condition_date" jdbcType="DATE"/>
+            <result property="resttime" column="resttime" jdbcType="TIMESTAMP"/>
+            <result property="conditionWorking" column="condition_working" jdbcType="VARCHAR"/>
+            <result property="conditionValue" column="condition_value" jdbcType="DOUBLE"/>
+            <result property="instrumentId" column="instrument_id" jdbcType="VARCHAR"/>
+            <result property="deleteFlag" column="delete_flag" jdbcType="TINYINT"/>
+            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,condition_date,resttime,
+        condition_working,condition_value,instrument_id,
+        delete_flag,company_id
+    </sql>
+</mapper>
