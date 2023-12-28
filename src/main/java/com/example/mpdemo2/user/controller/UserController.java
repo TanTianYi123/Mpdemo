@@ -71,4 +71,9 @@ public class UserController {
     public String fuckup(){
         return "fucku";
     }
+
+    @RequestMapping("/sss")
+    public String sss(){
+        return "sss";
+    }
 }
