@@ -17,4 +17,11 @@
         id,company,industry,
         description,location,telephone
     </sql>
+    <select id="selectAllByIdEquals" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from information
+        where
+        id = #{id,jdbcType=NUMERIC}
+    </select>
 </mapper>
