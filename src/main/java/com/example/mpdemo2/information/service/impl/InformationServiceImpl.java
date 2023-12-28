@@ -7,9 +7,9 @@ import com.example.mpdemo2.information.mapper.InformationMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Administrator
+* @author Dell
 * @description 针对表【information】的数据库操作Service实现
-* @createDate 2023-12-28 16:28:14
+* @createDate 2023-12-28 10:04:45
 */
 @Service
 public class InformationServiceImpl extends ServiceImpl<InformationMapper, Information>

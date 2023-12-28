@@ -4,6 +4,8 @@ package com.example.mpdemo2.base;/**
  * @time: 2023/12/27 0027 14:10
  */
 
+import com.example.mpdemo2.information.controller.InformationController;
+import com.example.mpdemo2.information.mapper.InformationMapper;
 import com.example.mpdemo2.user.domain.User;
 import com.example.mpdemo2.user.mapper.UserMapper;
 import com.example.mpdemo2.util.Constants;
@@ -27,7 +29,8 @@ import java.io.IOException;
 public class BaseController {
     @Autowired
     private UserMapper userMapper;
-
+    @Autowired
+    InformationController informationController;
     @RequestMapping("/")
     public String AIO(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Cookie[] cookies = req.getCookies();
@@ -46,13 +49,18 @@ public class BaseController {
         if (!flag) {
             return Constants.LOGIN;
         }
-        User userEntity = new User();
-        req.getSession().setAttribute("iconPath",userEntity.getIcon());
-        req.getSession().setAttribute("userName",userEntity.getUserName());
+        try {
+            User userEntity = new User();
+            req.getSession().setAttribute("iconPath",userEntity.getIcon());
+            req.getSession().setAttribute("userName",userEntity.getUserName());
 
-        req.getSession().setMaxInactiveInterval(0);
-        log.info("用户：" + userEntity.getUserName() + "登陆系统");
-        return Constants.LOGIN;
+            req.getSession().setMaxInactiveInterval(0);
+            log.info("用户：" + userEntity.getUserName() + "登陆系统");
+        }catch (Exception e){
+            return Constants.LOGIN;
+        }
+        return informationController.indexWeb(req);
+
     }
 }
 
