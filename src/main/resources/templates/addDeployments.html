@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/ico" />
+
+    <title>智能一体机 </title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+    <!-- iCheck -->
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet">
+    <!-- JQVMap -->
+    <link th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+    <!-- Select2 -->
+    <link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+    <!-- Switchery -->
+    <link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+    <!-- starrr -->
+    <link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
+</head>
+
+<body class="nav-md" onload="onload()">
+<script type="text/javascript">
+    function coki(v){
+        var value=$('#'+v).val();
+        if(value!=''){
+            $.cookie(v,value,{expires:1});
+        }
+
+    }
+
+</script>
+<script>
+    function onload(){
+
+        var name = $.cookie('name');
+        var script = $.cookie('script');
+        var description = $.cookie('description');
+        console.log(name);
+        console.log(script);
+        console.log(description);
+        if(name!='' && name!='undefined'&& name!='null'){$("#name").attr("value",name);};
+        if(script!=''&& script!='undefined' && script!='null'){$("#script").attr("value",script);};
+        if(description!=''&&description!='undefined'&&description!='null'){$("#description").attr("value",description);};
+
+    };
+</script>
+<div class="container body">
+    <div class="main_container">
+        <div th:replace="~{blank::menu}"></div>
+
+        <!-- 右上角图标 -->
+        <div th:replace="~{blank::top_nav}"></div>
+        <!-- /top navigation -->
+
+
+
+
+        <!-- 主页面 -->
+        <div class="right_col" role="main">
+            <div class="" th:with="baseURL='/ListDeployments/addDeployments/'">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3><small>容器应用</small></h3>
+
+                    </div>
+
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="">
+
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><i class="fa fa-cog"></i> 新增容器应用设置</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up" ></i></a>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="setting-tab" data-toggle="tab" href="#setting" role="tab" aria-controls="setting" aria-selected="true">基本设置</a>
+                                    </li>
+                                    <!--                    <li class="nav-item">-->
+                                    <!--                      <a class="nav-link" id="class-tab" data-toggle="tab" href="#class" role="tab" aria-controls="class" aria-selected="false">新增监测类型</a>-->
+                                    <!--                    </li>-->
+
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="setting" role="tabpanel" aria-labelledby="setting-tab">
+                                        <form th:action="@{${baseURL}+'list'}" method="post" id="settingForm" data-parsley-validate class="form-horizontal form-label-left">
+                                            <div id = "page1">
+
+                                                <div class="item form-group">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="name" th:autocomplete="off" >名称<span class="required">*</span>
+                                                </label>
+                                                    <div class="col-md-6 col-sm-6 ">
+                                                        <input  id="name" class="form-control " name="name" onblur="coki('name')">
+                                                    </div>
+                                            </div>
+                                                <div class="item form-group">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="script">标签
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                    <input  id="script" class="form-control " name="script" onblur="coki('script')">
+                                                </div>
+                                            </div>
+                                                <div class="item form-group">
+                                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="description"  >部署描述
+                                                </label>
+                                                <div class="col-md-6 col-sm-6 ">
+                                                    <input  id="description" class="form-control " name="description" onblur="coki('description')">
+                                                </div>
+                                            </div>
+                                                <div class="item form-group">
+
+                                            </div>
+                                                <div class="item form-group" id = "divhidden" th:hidden="${!ifhidden}">
+                                                    <div class="col-md-12 col-sm-12 ">
+                                                        <div class="x_panel">
+                                                            <div class="x_title">
+                                                                <h2>选择镜像</h2>
+                                                                <ul class="nav navbar-right panel_toolbox">
+                                                                    <li><a class="collapse-link"><i class="fa fa-chevron-up" id ="ChooseContainer"></i></a>
+                                                                    </li>
+                                                                    <li class="dropdown" id="updown">
+                                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                            <a class="dropdown-item" href="#">Settings 1</a>
+                                                                            <a class="dropdown-item" href="#">Settings 2</a>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                            <div class="x_content" >
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="card-box table-responsive">
+                                                                            <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap no-footer"><div class="row"><div class="col-sm-6"><div class="dataTables_length" id="datatable_length"><label>Show <select name="datatable_length" aria-controls="datatable" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="datatable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="datatable" class="table table-striped table-bordered dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="datatable_info">
+                                                                                <thead>
+                                                                                <tr role="row">
+                                                                                    <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74px;">名称</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 117px;">租户名称</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 57px;">组织</th>
+                                                                                    <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 57px;">操作</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody style="text-align: center">
+                                                                                <tr th:each="dpls:${addDeployments}" th:with="dplsTags=${dpls.Tags},dplsname=${dpls.name},path=${dpls.path}">
+                                                                                    <td th:text="${dpls.name}" id="dpls_name"></td>
+                                                                                    <td th:text="${dpls.domainName}" id="dpls_domainName"></td>
+                                                                                    <td th:text="${dpls.namespace}" id="dpls_namespace"></td>
+                                                                                    <td>
+                                                                                        <a class="btn btn-primary btn-sm"  th:href="@{/ListDeployments/addDeployments/getversion(version=${dplsTags},acceptname=${dplsname},allparam=${addDeployments},path=${path})}">
+                                                                                            <i class="fa fa-plus" >
+                                                                                            </i> 使用镜像</a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            </div>
+                                                                            </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-5">
+                                                                                        <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite">第<span>1</span>到</div>
+                                                                                    </div>
+                                                                                    <div class="col-sm-7">
+                                                                                        <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
+                                                                                            <ul class="pagination">
+                                                                                                <li class="paginate_button previous disabled" id="datatable_previous">
+                                                                                                    <a href="#" aria-controls="datatable" data-dt-idx="0" tabindex="0">Previous</a>
+                                                                                                </li>
+                                                                                                <li class="paginate_button active"><a href="#" aria-controls="datatable" data-dt-idx="1" tabindex="0">1</a>
+                                                                                                </li>
+                                                                                                <li class="paginate_button ">
+                                                                                                    <a href="#" aria-controls="datatable" data-dt-idx="2" tabindex="0">2</a>
+                                                                                                </li>
+                                                                                                <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="3" tabindex="0">3</a></li>
+                                                                                                <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="4" tabindex="0">4</a></li>
+                                                                                                <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="5" tabindex="0">5</a></li>
+                                                                                                <li class="paginate_button "><a href="#" aria-controls="datatable" data-dt-idx="6" tabindex="0">6</a></li>
+                                                                                                <li class="paginate_button next" id="datatable_next"><a href="#" aria-controls="datatable" data-dt-idx="7" tabindex="0">Next</a></li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item form-group" id = "divhidden2" th:hidden="${ifhidden}">
+                                                    <div class="col-md-12 col-sm-12 ">
+                                                        <div class="x_panel">
+                                                            <div class="x_content">
+                                                                <div class="row">
+                                                                    <h2 >容器配置<span>*</span>
+                                                                    </h2>
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="item form-group">
+                                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="acceptname">镜像名称
+                                                                            </label>
+                                                                            <div class="col-md-6 col-sm-6 ">
+                                                                                <label class="col-form-label col-md-3 col-sm-3 label-align" id="acceptname" th:text="${acceptname}">
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="item form-group">
+                                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="Version" >镜像版本
+                                                                            </label>
+                                                                            <div class="col-md-6 col-sm-6 ">
+                                                                                <select class="form-control " id="Version" name="Version">
+                                                                                    <option th:each="mc:${addVersion}" th:value="${mc}" th:text="${mc}"></option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="item form-group">
+                                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="ContainerName2">容器名称
+                                                                            </label>
+                                                                            <div class="col-md-6 col-sm-6 ">
+                                                                                <input  id="ContainerName2" class="form-control " name="ContainerName2">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="item form-group">
+                                                                            <label class="col-form-label col-md-3 col-sm-3 label-align">规格
+                                                                            </label>
+                                                                            <div class="col-md-6 col-sm-6 ">
+                                                                                <div class="btn-group" id="AiAccelerater">
+                                                                                    <input class="btn btn-secondary" type="radio" name = "AIcard" value="none">&nbsp;无加速卡&nbsp;</input>
+                                                                                    <input class="btn btn-secondary" type="radio" name = "AIcard" value="D310">&nbsp;晟腾310&nbsp;</input>
+                                                                                    <input class="btn btn-secondary" type="radio" name = "AIcard" value="D390">&nbsp;晟腾390&nbsp;</input>
+                                                                                    <input class="btn btn-secondary" type="radio" name = "AIcard" value="NvidiaGPU">&nbsp;NvidiaGPU&nbsp;</input>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="pull-right" style="margin-right: 100px">
+                                                                            <button  type="button" onclick="ShowNextPage()">下一页</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="page2" th:hidden="true">
+                                                <div class="item form-group" >
+                                                    <div class="col-md-12 col-sm-12 ">
+                                                        <div class="x_panel">
+                                                            <div class="x_title">
+                                                                <div class="item form-group">
+                                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="order">运行命令
+                                                                    </label>
+                                                                    <div class="col-md-6 col-sm-6 ">
+                                                                        <input  id="order" class="form-control " name="order">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="item form-group">
+                                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="parameter">运行参数
+                                                                    </label>
+                                                                    <div class="col-md-6 col-sm-6 ">
+                                                                        <input  id="parameter" class="form-control " name="parameter">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="item form-group">
+                                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="edgename">节点ID
+                                                                    </label>
+                                                                    <div class="col-md-6 col-sm-6 ">
+                                                                        <input  id="edgename" class="form-control " name="edgename">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel-body" >
+                                                                    <table class="table bootstrap-datatable countries">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>容器端口</th>
+                                                                            <th>主机端口</th>
+                                                                            <th>操作</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr >
+                                                                            <td ><input  id="inputPort" class="form-control " name="inputPort"></td>
+                                                                            <td ><input  id="inputMainPort" class="form-control " name="inputMainPort"></td>
+                                                                            <td>
+                                                                                <a>删除</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item form-group">
+                                                    <div class="col-md-6 col-sm-6 offset-md-4">
+                                                        <button class="btn btn-primary" type="reset" style="min-width: 75px;">复位</button>
+                                                        <button type="submit" class="btn btn-success" style="min-width: 75px;margin-left: 25px;">提交</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- 主页面结束 -->
+
+
+
+
+        <!-- footer content 页脚：可以指代开发公司？-->
+        <!--        <footer>-->
+        <!--          <div class="pull-middle">-->
+        <!--            Gentelella - Bootstrap Admin Template by <a th:href="@{/https://colorlib.com">Colorlib</a>-->
+        <!--          </div>-->
+        <!--          <div class="clearfix"></div>-->
+        <!--        </footer>-->
+        <!-- /footer content -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+<!-- NProgress -->
+<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+<!-- Chart.js -->
+<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+<!-- gauge.js -->
+<script th:src="@{/vendors/gauge.js/dist/gauge.min.js}"></script>
+<!-- bootstrap-progressbar -->
+<script th:src="@{/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+<!-- Skycons -->
+<script th:src="@{/vendors/skycons/skycons.js}"></script>
+<!-- Flot -->
+<script th:src="@{/vendors/Flot/jquery.flot.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.pie.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.time.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.stack.js}"></script>
+<script th:src="@{/vendors/Flot/jquery.flot.resize.js}"></script>
+<!-- Flot plugins -->
+<script th:src="@{/vendors/flot.orderbars/js/jquery.flot.orderBars.js}"></script>
+<script th:src="@{/vendors/flot-spline/js/jquery.flot.spline.min.js}"></script>
+<script th:src="@{/vendors/flot.curvedlines/curvedLines.js}"></script>
+<!-- DateJS -->
+<script th:src="@{/vendors/DateJS/build/date.js}"></script>
+<!-- JQVMap -->
+<script th:src="@{/vendors/jqvmap/dist/jquery.vmap.js}"></script>
+<script th:src="@{/vendors/jqvmap/dist/maps/jquery.vmap.world.js}"></script>
+<script th:src="@{/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js}"></script>
+<!-- bootstrap-daterangepicker -->
+<script th:src="@{/vendors/moment/min/moment.min.js}"></script>
+<script th:src="@{/vendors/bootstrap-daterangepicker/daterangepicker.js}"></script>
+<!-- bootstrap-wysiwyg -->
+<script th:src="@{/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js}"></script>
+<script th:src="@{/vendors/jquery.hotkeys/jquery.hotkeys.js}"></script>
+<script th:src="@{/vendors/google-code-prettify/src/prettify.js}"></script>
+<!-- jQuery Tags Input -->
+<script th:src="@{/vendors/jquery.tagsinput/src/jquery.tagsinput.js}"></script>
+<!-- Switchery -->
+<script th:src="@{/vendors/switchery/dist/switchery.min.js}"></script>
+<!-- Select2 -->
+<script th:src="@{/vendors/select2/dist/js/select2.full.min.js}"></script>
+<!-- Parsley -->
+<script th:src="@{/vendors/parsleyjs/dist/parsley.min.js}"></script>
+<!-- Autosize -->
+<script th:src="@{/vendors/autosize/dist/autosize.min.js}"></script>
+<!-- jQuery autocomplete -->
+<script th:src="@{/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js}"></script>
+<!-- starrr -->
+<script th:src="@{/vendors/starrr/dist/starrr.js}"></script>
+<!-- Custom Theme Scripts -->
+<script th:src="@{/build/js/custom.min.js}"></script>
+
+<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script>
+    function savaData(){
+         // var dplsName = $("#dpls_name").text();
+         //
+         // document.getElementById("acceptname").innerText = dplsName;
+        var param=$("name").serialize();
+        sessionStorage.setItem("nameParams",param);
+
+    }
+    function ShowNextPage() {
+
+        $("#page1").attr("hidden", true);
+        $("#page2").attr("hidden", false);
+
+    }
+    function readlist(){
+
+    }
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var msg = /*[[${msg}]]*/null;
+    if(msg!=null){
+        alert(msg);
+    }
+    /*]]>*/
+</script>
+</body>
+</html>
