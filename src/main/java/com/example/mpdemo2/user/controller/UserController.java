@@ -67,9 +67,9 @@ public class UserController {
             return Constants.LOGIN;// 需要注册
         }
     }
-    @RequestMapping("/fuckall")
-    public String fuckall(){
-        return "fuckaa";
+    @RequestMapping("/fuckasd")
+    public String fuckasd(){
+        return "fuckasd";
     }
 
     @RequestMapping("/sss")
