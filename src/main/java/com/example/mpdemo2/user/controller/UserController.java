@@ -67,16 +67,5 @@ public class UserController {
             return Constants.LOGIN;// 需要注册
         }
     }
-    @RequestMapping("/fuckasd")
-    public String fuckasd(){
-        return "fuckasd";
-    }
 
-    @RequestMapping("/sss")
-    public String sss(){
-        return "sss";
-    }
-
-   @RequestMapping("/tty")
-    public String tty(){return "tty";}
 }

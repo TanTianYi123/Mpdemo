@@ -65,13 +65,26 @@
                             <div class="x_title">
                                 <!--                                <a th:href="@{${baseURL}+'/add'}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增用电设备</a>-->
                                 <div class="col-sm-4">
-                                    <select class="form-control" name="monitorName" id="monitorNameSelect">
-                                        <option  th:each="monitor:${allMyConditionMonitors}"></option>
+                                    <select class="form-control" title="请选择设备" name="instrumentId" id="instrumentSelect">
+                                        <option value="all">全部</option>
+                                        <option  th:each="monitor:${allMyConditionMonitors}" th:value="${monitor.instrumentId}" th:text="${monitor.instrumentId}"></option>
                                     </select>
                                 </div>
-<!--                                <div class="col-sm-4">-->
-<!--                                    <select class="form-control" name="dateDir" id="dateDirSelect"></select>-->
-<!--                                </div>-->
+                                <div class="col-sm-4">
+                                    <select class="form-control" title="请选择时间段"  name="date" id="dateSelect">
+                                        <option value="all">全部</option>
+                                        <option value="3">近三天</option>
+                                        <option value="10">近十天</option>
+                                        <option value="30">近一个月</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select class="form-control" title="请选择显示条数" name="page" id="pageSize">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>
@@ -84,9 +97,14 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="card-box table-responsive">
-                                            <table  class="table table-striped table-bordered" style="width:100%">
+                                            <table  id="mycondition_table" class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
-                                                <tr id="table_head">
+                                                <tr >
+                                                    <th>日期</th>
+                                                    <th>重启时间</th>
+                                                    <th>工况</th>
+                                                    <th>数值</th>
+                                                    <th>设备号</th>
                                                 </tr>
                                                 </thead>
                                             </table>
@@ -182,98 +200,72 @@
     }
     /*]]>*/
 </script>
-
-<script type="text/javascript" th:inline="javascript">
-    window.alert = function() {
-        return false;
-    }
-    $(function (){
-        jQuery.support.cors=true;
-        $("#pageSize").change(function(){
-            $("#pageSizeForm").attr({'action':$("#pageSizeForm").attr('action')+$("#pageSize option:selected").val()})
-            $("#pageSizeForm").submit();
-        });
-        callMonitorName();
-        callDateDirs();
-        $("#monitorNameSelect").change(function (){
-            callDateDirs();
-            callElectricData(2);
-        });
-        callElectricData(1);
-        $("#dateDirSelect").change(function (){
-            callElectricData(2);
-        });
+<!--初始化表格-->
+<script th:inline="javascript">
+    $(document).ready(function () {
+        // 在页面加载时加载表格数据
+        updateTable();
     });
 </script>
+<!--/根据选择框中内容更新表格/-->
+<script type="text/javascript" th:inline="javascript">
 
-
-<script th:inline="javascript" th:with="zh=@{/json/zh.json}">
-
-    let host = document.location.host;
-    function callMonitorName(){
-        $.ajaxSettings.async = false;
-        $.post("http://" + host +"/returnElectricityMonitorName","",function (result){
-            $("#monitorNameSelect").empty();
-            for (var i=0;i<result.length;i++){
-                $("#monitorNameSelect").append("<option value='"+ result[i] +"'>"+ result[i] +"</option>");
-            }
+        $("#instrumentSelect").change(function () {
+            console.log("用户选择企业");
+            updateTable(); // 更新表格的函数
         });
-        $.ajaxSettings.async = true;
-    }
 
-    function callDateDirs(){
-        $.ajaxSettings.async = false;
-        $.post("http://" + host +"/returnElectricFileList","monitorName="+$("#monitorNameSelect").val(),function (result){
-            $("#dateDirSelect").empty();
-            for (var i=0;i<result.length;i++){
-                $("#dateDirSelect").append("<option value='"+ result[i] +"'>"+ result[i] +"</option>");
-            }
+        $("#dateSelect").change(function () {
+            updateTable(); // 更新表格的函数
         });
-        $.ajaxSettings.async = true;
-    }
 
-    function callElectricData(cnt){
-        console.log("monitorName="+$("#monitorNameSelect").val());
-        console.log("dir="+$("#dateDirSelect").val());
-        $.post("http://" + host +"/returnElectricData","monitorName="+$("#monitorNameSelect").val()+"&dir="+$("#dateDirSelect").val(),function(result){
-            if(cnt!==1){
-                $('#table_id_example').DataTable().clear();
-                $('#table_id_example').DataTable().destroy();
-                $('#table_id_example').empty();
-            }
-            createDatatable(result);
-        } );
-    }
+        $("#pageSize").change(function () {
+            updateTable(); // 当每页显示数量变化时更新表格
+        });
 
-    function createDatatable(result) {
-        var obj = JSON.parse(result);
-        var col = [];
-        $("#table_id_example").append("<thead>\n" +
-            "<tr id=\"table_head\">\n" +
-            "</tr>\n" +
-            "</thead>");
-        for (var i=0;i< obj.keySet.length;i++){
-            $('#table_head').append("<th>"+obj.keySet[i]+"</th>");
-            col[i]="{\"data\":\""+obj.keySet[i]+"\"}"
-            col[i]=JSON.parse(col[i]);
-        }
+</script>
 
+<script th:inline="javascript" >
+    function updateTable(){
+        // 获取当前选择的企业ID和日期
+        var selectedInstrumentId = $("#instrumentSelect").val();
+        console.log(selectedInstrumentId);
+        var selectedDate = $("#dateSelect").val();
+        var selectedPageSize = $("#pageSize").val(); // 从某个元素获取每页显示的数量
 
-        console.log(col);
-        $('#table_id_example').DataTable({
-            /*"columns":[  //绑定的数据源，后台的json数据里必须有这些属性，保持一致性
-                {"data":"accountNum"},
-                {"data":"userName"},
-                {"data":"unit"},
-                {"data":"authority"},
-                {"data":"time"}
-            ],*/
-            "scrollX": true,
-            columns: col,
-            data: obj.data,
-            language: {
-                url: [[${zh}]],
+        // 使用Ajax调用后端API获取数据
+        $.ajax({
+            url: "/returnConditiontabledata", // 替换成你的API路径
+            type: "POST", // GET或者POST，依据你的后端API要求
+            data: {
+                instrumentId: selectedInstrumentId,
+                date: selectedDate,
+                pageSize: selectedPageSize // 可能你的后端需要这个参数来确定返回多少条数据
             },
+            success: function(response) {
+                // 假设response是返回的数据
+                // 清空当前表格数据
+                $("#mycondition_table tbody").empty();
+                console.log("成功接收到工况数据");
+                // 遍历返回的数据，添加到表格中
+                response.forEach(function(item) {
+                    var row = "<tr>" +
+                        "<td>" + new Date(item.conditionDate) + "</td>" +
+                        "<td>" + new Date(item.resttime) + "</td>" +
+                        "<td>" + item.conditionWorking + "</td>" +
+                        "<td>" + item.conditionValue + "</td>" +
+                        "<td>" + item.instrumentId + "</td>" +
+                        "</tr>";
+                    $("#mycondition_table").append(row);
+
+                });
+
+                // 更新分页控件等...
+            },
+            error: function(error) {
+                // 处理错误情况
+                console.log(error);
+            }
         });
     }
 

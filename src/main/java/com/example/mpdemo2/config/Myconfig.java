@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @time: 2023/12/22 0022 15:56
  */
 @Configuration
-@MapperScan("com.example.mpdemo2.mapper")
+@MapperScan("com.example.mpdemo2.*.mapper")
 public class Myconfig {
     @Bean
     public PaginationInterceptor paginationInterceptor(){

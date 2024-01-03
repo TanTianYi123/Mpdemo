@@ -1,4 +1,8 @@
 package com.example.mpdemo2.mycondition.mapper;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.example.mpdemo2.mycondition.domain.MyCondition;
@@ -16,7 +20,13 @@ import java.util.List;
 @Mapper
 public interface MyConditionMapper extends BaseMapper<MyCondition> {
     @Override
-    List<MyCondition> selectList(Wrapper<MyCondition> queryWrapper);
+    List<MyCondition> selectList(@Param(Constants.WRAPPER) Wrapper<MyCondition> queryWrapper);
+
+    List<MyCondition> searchAllByInstrumentIdAndDeleteFlag(@Param("instrumentId") String instrumentId, @Param("deleteFlag") Integer deleteFlag);
+
+    List<MyCondition> searchAllByDeleteFlag(@Param("deleteFlag") Integer deleteFlag);
+
+
 }
 
 

@@ -2,6 +2,10 @@ package com.example.mpdemo2.mycondition.service;
 
 import com.example.mpdemo2.mycondition.domain.MyCondition;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
 * @author Dell
@@ -9,5 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-12-28 10:31:01
 */
 public interface MyConditionService extends IService<MyCondition> {
+    public PageInfo<MyCondition> returnselecttabledata(String instrumentId, String date);
 
 }

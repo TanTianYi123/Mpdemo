@@ -20,4 +20,58 @@
         condition_working,condition_value,instrument_id,
         delete_flag,company_id
     </sql>
+    <select id="searchAllByCompanyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        company_id = #{companyId,jdbcType=NUMERIC}
+    </select>
+    <select id="searchAllByConditionDate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        condition_date = #{conditionDate}
+    </select>
+    <select id="searchAllByCompanyIdAndConditionDateAndDeleteFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        company_id = #{companyId,jdbcType=NUMERIC}
+        AND condition_date = #{conditionDate,jdbcType=TIMESTAMP}
+        AND delete_flag = #{deleteFlag,jdbcType=NUMERIC}
+    </select>
+    <select id="searchAllByCompanyIdAndDeleteFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        company_id = #{companyId,jdbcType=NUMERIC}
+        AND delete_flag = #{deleteFlag,jdbcType=NUMERIC}
+    </select>
+    <select id="searchAllByConditionDateAndDeleteFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        condition_date = #{conditionDate,jdbcType=TIMESTAMP}
+        AND delete_flag = #{deleteFlag,jdbcType=NUMERIC}
+    </select>
+    <select id="searchAllByInstrumentIdAndDeleteFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        instrument_id = #{instrumentId,jdbcType=VARCHAR}
+        AND delete_flag = #{deleteFlag,jdbcType=NUMERIC}
+    </select>
+    <select id="searchAllByDeleteFlag" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+        where
+        delete_flag = #{deleteFlag,jdbcType=NUMERIC}
+    </select>
 </mapper>
