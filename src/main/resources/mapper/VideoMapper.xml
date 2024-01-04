@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.VideoMapper">
+
+    <resultMap id="BaseResultMap" type="generator.domain.Video">
+            <result property="id" column="id" jdbcType="INTEGER"/>
+            <result property="monitorName" column="monitor_name" jdbcType="VARCHAR"/>
+            <result property="rtsp" column="rtsp" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="stream" column="stream" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,monitor_name,rtsp,
+        description,stream
+    </sql>
+</mapper>
