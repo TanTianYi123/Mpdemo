@@ -2,18 +2,40 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="generator.mapper.VideoMapper">
+<mapper namespace="com.example.mpdemo2.video.mapper.VideoMapper">
 
-    <resultMap id="BaseResultMap" type="generator.domain.Video">
+    <resultMap id="BaseResultMap" type="com.example.mpdemo2.video.domain.Video">
             <result property="id" column="id" jdbcType="INTEGER"/>
             <result property="monitorName" column="monitor_name" jdbcType="VARCHAR"/>
             <result property="rtsp" column="rtsp" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="stream" column="stream" jdbcType="VARCHAR"/>
+            <result property="companyId" column="company_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,monitor_name,rtsp,
-        description,stream
+        description,stream,company_id
     </sql>
+    <select id="selectAllById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from video
+        where
+        id = #{id,jdbcType=NUMERIC}
+    </select>
+    <select id="selectAllByMonitorName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from video
+        where
+        monitor_name = #{monitorName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAllByStream" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from video
+        where
+        stream = #{stream,jdbcType=VARCHAR}
+    </select>
 </mapper>
