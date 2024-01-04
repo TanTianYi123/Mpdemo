@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mpdemo2.alarm.alarmsetting.mapper.AlarmSettingsMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.mpdemo2.alarm.alarmsetting.domain.AlarmSettings">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="monitorClass" column="monitor_class" jdbcType="VARCHAR"/>
+            <result property="monitorValue" column="monitor_value" jdbcType="VARCHAR"/>
+            <result property="lowerLimit" column="lower_limit" jdbcType="DOUBLE"/>
+            <result property="upperLimit" column="upper_limit" jdbcType="DOUBLE"/>
+            <result property="unit" column="unit" jdbcType="VARCHAR"/>
+            <result property="message" column="message" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,monitor_class,monitor_value,
+        lower_limit,upper_limit,unit,
+        message
+    </sql>
+</mapper>
