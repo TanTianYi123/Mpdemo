@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan("com.example.mpdemo2.*.mapper")
+@MapperScan({"com.example.mpdemo2.*.mapper","com.example.mpdemo2.*.*.mapper"})
 public class Mpdemo2Application {
 
     public static void main(String[] args) {
