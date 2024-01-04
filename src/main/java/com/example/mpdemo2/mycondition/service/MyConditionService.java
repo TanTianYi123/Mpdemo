@@ -13,6 +13,6 @@ import java.util.List;
 * @createDate 2023-12-28 10:31:01
 */
 public interface MyConditionService extends IService<MyCondition> {
-    public PageInfo<MyCondition> returnselecttabledata(String instrumentId, String date);
+    public List<MyCondition> returnselecttabledata(String instrumentId, String date);
 
 }

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class MyConditionController {
 
     @RequestMapping("/myConditionMonitor")
     public String myConditionMonitorWeb (HttpServletRequest request) {
-        List<MyCondition> myConditions = myConditionMapper.selectList(null);
+        List<MyCondition> myConditions = myConditionMapper.searchAllByDeleteFlag(0);
         if(myConditions.isEmpty()){
             request.setAttribute(Constants.MSG, "暂无数据");
         }else {
@@ -42,20 +43,22 @@ public class MyConditionController {
     }
 
     @RequestMapping("/returnConditiontabledata")
-    public void returnConditiontabledata (HttpServletResponse response,String instrumentIdId, String date, String pageSize) throws IOException{
-        PageInfo<MyCondition> myConditions = myConditionService.returnselecttabledata(instrumentIdId, date);
+    public void returnConditiontabledata (HttpServletResponse response,HttpServletRequest request,String instrumentId, String date) throws IOException {
+        List<MyCondition> allMyConditionMonitors = myConditionService.returnselecttabledata(instrumentId, date);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        if(myConditions.getPages() == 0){
+        if(allMyConditionMonitors.isEmpty()){
             response.getWriter().write("{\"msg\": \"暂无数据\"}");
         }else {
             // 使用Jackson的ObjectMapper来转换对象为JSON字符串
             ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(myConditions);
+            String json = mapper.writeValueAsString(allMyConditionMonitors);
             response.getWriter().write(json);
             log.info("返回选择的工况数据！");
         }
+
+
     }
 }

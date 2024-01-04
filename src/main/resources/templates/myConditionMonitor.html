@@ -78,13 +78,6 @@
                                         <option value="30">近一个月</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
-                                    <select class="form-control" title="请选择显示条数" name="page" id="pageSize">
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </div>
                                 <ul class="nav navbar-right panel_toolbox">
                                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                     </li>
@@ -107,6 +100,15 @@
                                                     <th>设备号</th>
                                                 </tr>
                                                 </thead>
+                                                <tbody>
+                                                <tr th:each="monitor:${allMyConditionMonitors}">
+                                                    <td th:text="${monitor.conditionDate}"> </td>
+                                                    <td th:text="${monitor.resttime}"> </td>
+                                                    <td th:text="${monitor.conditionWorking}"> </td>
+                                                    <td th:text="${monitor.conditionValue}"> </td>
+                                                    <td th:text="${monitor.instrumentId}"> </td>
+                                                </tr>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -200,18 +202,22 @@
     }
     /*]]>*/
 </script>
-<!--初始化表格-->
-<script th:inline="javascript">
+<script th:inline="javascript" th:with="zh=@{/json/zh.json}">
     $(document).ready(function () {
         // 在页面加载时加载表格数据
-        updateTable();
+        //  updateTable();
+        $('#mycondition_table').DataTable({
+            "scrollX": true,
+            language: {
+                url: [[${zh}]],
+            },
+        });
     });
 </script>
 <!--/根据选择框中内容更新表格/-->
 <script type="text/javascript" th:inline="javascript">
 
         $("#instrumentSelect").change(function () {
-            console.log("用户选择企业");
             updateTable(); // 更新表格的函数
         });
 
@@ -225,7 +231,7 @@
 
 </script>
 
-<script th:inline="javascript" >
+<script th:inline="javascript" th:with="zh=@{/json/zh.json}">
     function updateTable(){
         // 获取当前选择的企业ID和日期
         var selectedInstrumentId = $("#instrumentSelect").val();
@@ -243,8 +249,11 @@
                 pageSize: selectedPageSize // 可能你的后端需要这个参数来确定返回多少条数据
             },
             success: function(response) {
-                // 假设response是返回的数据
+                // response是返回的数据
                 // 清空当前表格数据
+
+                $('#mycondition_table').DataTable().clear();
+                $('#mycondition_table').DataTable().destroy();
                 $("#mycondition_table tbody").empty();
                 console.log("成功接收到工况数据");
                 // 遍历返回的数据，添加到表格中
@@ -258,8 +267,14 @@
                         "</tr>";
                     $("#mycondition_table").append(row);
 
-                });
 
+                });
+                $('#mycondition_table').DataTable({
+                    "scrollX": true,
+                    language: {
+                        url: [[${zh}]],
+                    },
+                });
                 // 更新分页控件等...
             },
             error: function(error) {

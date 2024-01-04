@@ -25,7 +25,7 @@ public class MyConditionServiceImpl extends ServiceImpl<MyConditionMapper, MyCon
     @Autowired
     MyConditionMapper myConditionMapper;
 
-    public PageInfo<MyCondition>  returnselecttabledata(String instrumentId, String date){
+    public List<MyCondition>  returnselecttabledata(String instrumentId, String date){
         LocalDate dateDaysAgo;
         List<MyCondition> myConditions;
         QueryWrapper<MyCondition> queryWrapper = new QueryWrapper<>();
@@ -64,7 +64,7 @@ public class MyConditionServiceImpl extends ServiceImpl<MyConditionMapper, MyCon
 
 
 
-        return new PageInfo<>(myConditions);
+        return  myConditions;
     }
 }
 
