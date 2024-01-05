@@ -11,7 +11,8 @@ import com.example.mpdemo2.video.domain.Video;
 import com.example.mpdemo2.video.service.VideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jdk.jfr.Description;
+
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class VideoController {
      */
     @ApiOperation("视频分页查询接口")
     @RequestMapping("videoMonitor")
-    @Description("跳转到摄像头列表页面")
+
     public String toVideoPage(Video video,HttpServletRequest request){
 
 
