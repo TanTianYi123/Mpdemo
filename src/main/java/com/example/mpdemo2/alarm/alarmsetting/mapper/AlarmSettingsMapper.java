@@ -1,4 +1,5 @@
 package com.example.mpdemo2.alarm.alarmsetting.mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.mpdemo2.alarm.alarmsetting.domain.AlarmSettings;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -10,7 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.example.mpdemo2.alarmsetting.domain.AlarmSettings
 */
 public interface AlarmSettingsMapper extends BaseMapper<AlarmSettings> {
-
+    int insertAll(AlarmSettings alarmSettings);
 }
 
 

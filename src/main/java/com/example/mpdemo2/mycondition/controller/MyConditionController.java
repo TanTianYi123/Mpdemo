@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +60,10 @@ public class MyConditionController {
             log.info("返回选择的工况数据！");
         }
 
-
+    }
+    @ResponseBody
+    @RequestMapping("/test")
+    public String test(){
+        return "fuck";
     }
 }
