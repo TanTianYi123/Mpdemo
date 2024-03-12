@@ -103,9 +103,10 @@ public interface Constants {
 	/**
 	 * 文件存储根路径
 	 */
-	String ROOTPATH = ProcessUtil.IS_WINDOWS?"D:\\项目\\AIO\\data\\":"/home/test/AIO/data/";
-	String IMGROOTPATH = ProcessUtil.IS_WINDOWS?"D:\\项目\\AIO\\images\\":"/home/test/AIO/image/";
-	String VIDEOPATH = ProcessUtil.IS_WINDOWS?"D:\\项目\\AIO\\video\\":"/home/test/AIO/video/";
+	String ROOTPATH = ProcessUtil.IS_WINDOWS?"D:\\work\\CET\\data\\":"/home/test/CET/data/";
+	String DataROOTPATH = ProcessUtil.IS_WINDOWS?"D:\\work\\CET\\data\\":"/home/test/CET/data/";
+	String IMGROOTPATH = ProcessUtil.IS_WINDOWS?"D:\\work\\CET\\images\\":"/home/test/CET/image/";
+	String VIDEOPATH = ProcessUtil.IS_WINDOWS?"D:\\work\\CET\\video\\":"/home/test/CET/video/";
 	String VIDEOOUTPUTPATH = "D:\\项目\\AIO\\recorder\\";
 	//视频的照片流
 	String IMGOUTPUTPATH = ProcessUtil.IS_WINDOWS?IMGROOTPATH+"input\\":IMGROOTPATH+"input/";
@@ -120,6 +121,6 @@ public interface Constants {
 	//用电数据
 	String ELECTRICPATH = ProcessUtil.IS_WINDOWS?ROOTPATH+"用电监测\\":ROOTPATH+"用电监测/";
 
-	String DISKCAPACITYPATH = ProcessUtil.IS_WINDOWS?"D:\\项目\\AIO\\data":"/home/test/AIO";
+	String DISKCAPACITYPATH = ProcessUtil.IS_WINDOWS?"D:\\work":"/home/test/CET";
 
 }

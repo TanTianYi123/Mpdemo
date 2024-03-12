@@ -1,6 +1,7 @@
 package com.example.mpdemo2.mycondition.controller;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.mpdemo2.mycondition.domain.MyCondition;
 import com.example.mpdemo2.mycondition.mapper.MyConditionMapper;
 import com.example.mpdemo2.mycondition.service.MyConditionService;
@@ -33,7 +34,9 @@ public class MyConditionController {
 
     @RequestMapping("/myConditionMonitor")
     public String myConditionMonitorWeb (HttpServletRequest request) {
-        List<MyCondition> myConditions = myConditionMapper.searchAllByDeleteFlag(0);
+        QueryWrapper<MyCondition> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("delete_flag", 0).select("DISTINCT instrument_id");
+        List<MyCondition> myConditions = myConditionMapper.selectList(queryWrapper);
         if(myConditions.isEmpty()){
             request.setAttribute(Constants.MSG, "暂无数据");
         }else {
@@ -66,4 +69,10 @@ public class MyConditionController {
     public String test(){
         return "fuck";
     }
+    @RequestMapping("/instrumentAdd")
+    public String addInstrumentShow(HttpServletRequest request){
+        log.info("进入新增污染源页面成功！");
+        return "addInstrument";
+    }
+
 }

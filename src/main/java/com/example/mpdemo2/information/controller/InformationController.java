@@ -26,4 +26,25 @@ public class InformationController {
         log.info("进入首页成功！");
         return "index";
     }
+    @RequestMapping("/updateInformation")
+    public String updateInformationShow(HttpServletRequest request){
+        List<Information> informations = informationMapper.selectAllByIdEquals(1);
+        Information information = informations.get(0);
+        request.setAttribute("information", information);
+        log.info("进入企业信息修改页面成功！");
+        return "updateInformation";
+    }
+    @RequestMapping("/updataCompanyInformation")
+    public String updataInformationEntity(HttpServletRequest request, Information information) {
+        try{
+            informationMapper.updateById(information);
+        }catch (Exception e){
+            log.error("企业信息修改失败！" +e);
+            return updateInformationShow(request);
+        }
+        request.setAttribute("msg", "企业信息修改成功！");
+        log.info("企业信息修改成功！");
+        return indexWeb(request);
+    }
+
 }

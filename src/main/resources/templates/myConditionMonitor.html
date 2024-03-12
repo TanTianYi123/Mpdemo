@@ -65,12 +65,14 @@
                             <div class="x_title">
                                 <!--                                <a th:href="@{${baseURL}+'/add'}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 新增用电设备</a>-->
                                 <div class="col-sm-4">
+                                    <label  class="col-form-label col-md-3 col-sm-3 label-align">设备</label>
                                     <select class="form-control" title="请选择设备" name="instrumentId" id="instrumentSelect">
                                         <option value="all">全部</option>
                                         <option  th:each="monitor:${allMyConditionMonitors}" th:value="${monitor.instrumentId}" th:text="${monitor.instrumentId}"></option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
+                                    <label  class="col-form-label col-md-3 col-sm-3 label-align">时间</label>
                                     <select class="form-control" title="请选择时间段"  name="date" id="dateSelect">
                                         <option value="all">全部</option>
                                         <option value="3">近三天</option>
@@ -205,13 +207,13 @@
 <script th:inline="javascript" th:with="zh=@{/json/zh.json}">
     $(document).ready(function () {
         // 在页面加载时加载表格数据
-        //  updateTable();
-        $('#mycondition_table').DataTable({
-            "scrollX": true,
-            language: {
-                url: [[${zh}]],
-            },
-        });
+         updateTable();
+        // $('#mycondition_table').DataTable({
+        //     "scrollX": true,
+        //     language: {
+        //         url: [[${zh}]],
+        //     },
+        // });
     });
 </script>
 <!--/根据选择框中内容更新表格/-->
@@ -232,6 +234,14 @@
 </script>
 
 <script th:inline="javascript" th:with="zh=@{/json/zh.json}">
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = String(date.getMonth() + 1).padStart(2, '0'); // 使用padStart来补零
+        var day = String(date.getDate()).padStart(2, '0');
+        var hours = String(date.getHours()).padStart(2, '0');
+        var minutes = String(date.getMinutes()).padStart(2, '0');
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+    }
     function updateTable(){
         // 获取当前选择的企业ID和日期
         var selectedInstrumentId = $("#instrumentSelect").val();
@@ -251,7 +261,6 @@
             success: function(response) {
                 // response是返回的数据
                 // 清空当前表格数据
-
                 $('#mycondition_table').DataTable().clear();
                 $('#mycondition_table').DataTable().destroy();
                 $("#mycondition_table tbody").empty();
@@ -259,8 +268,8 @@
                 // 遍历返回的数据，添加到表格中
                 response.forEach(function(item) {
                     var row = "<tr>" +
-                        "<td>" + new Date(item.conditionDate) + "</td>" +
-                        "<td>" + new Date(item.resttime) + "</td>" +
+                        "<td>" + formatDate(new Date(item.conditionDate)) + "</td>" +
+                        "<td>" +  formatDate(new Date(item.resttime)) + "</td>" +
                         "<td>" + item.conditionWorking + "</td>" +
                         "<td>" + item.conditionValue + "</td>" +
                         "<td>" + item.instrumentId + "</td>" +

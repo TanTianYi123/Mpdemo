@@ -27,6 +27,8 @@ public interface MyConditionMapper extends BaseMapper<MyCondition> {
     List<MyCondition> searchAllByDeleteFlag(@Param("deleteFlag") Integer deleteFlag);
 
 
+
+
 }
 
 

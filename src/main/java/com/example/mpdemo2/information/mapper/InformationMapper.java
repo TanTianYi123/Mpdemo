@@ -1,6 +1,7 @@
 package com.example.mpdemo2.information.mapper;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 @Mapper
 public interface InformationMapper extends BaseMapper<Information> {
     List<Information> selectAllByIdEquals(@Param("id") Integer id);
+
+    @Override
+    int updateById(@Param(Constants.ENTITY) Information entity);
 }
 
 

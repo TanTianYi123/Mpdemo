@@ -74,4 +74,9 @@
         where
         delete_flag = #{deleteFlag,jdbcType=NUMERIC}
     </select>
+    <select id="searchOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from my_condition
+    </select>
 </mapper>
