@@ -46,8 +46,6 @@ public class VideoController {
     @RequestMapping("videoMonitor")
 
     public String toVideoPage(Video video,HttpServletRequest request){
-
-
         Page<Video> page = new Page<>(1,5);
         videoService.page(page,null);
         List<Video> videos = page.getRecords();
