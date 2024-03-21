@@ -1,5 +1,7 @@
 package com.example.mpdemo2.util;
 
+
+import com.example.mpdemo2.base.FFmpegProcess;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT;
@@ -19,7 +21,10 @@ public class ProcessUtil {
     /** Linux系统* */
     public static final boolean IS_LINUX = System.getProperty("os.name").toLowerCase().contains("linux");
 
-    public static int getProcessIdInWindows(Process p) throws NoSuchFieldException, IllegalAccessException {
+    public static int getProcessIdInWindows(FFmpegProcess fp) throws NoSuchFieldException, IllegalAccessException {
+        Field processfield = FFmpegProcess.class.getDeclaredField("process");
+        processfield.setAccessible(true);
+        Process p = (Process)processfield.get(fp);
         Field f = p.getClass().getDeclaredField("handle");
         f.setAccessible(true);
         long handle = f.getLong(p);
@@ -30,15 +35,19 @@ public class ProcessUtil {
         return pid;
     }
 
-    public static int getProcessIdInLinux(Process p) throws NoSuchFieldException, IllegalAccessException {
+    public static int getProcessIdInLinux(FFmpegProcess fp) throws NoSuchFieldException, IllegalAccessException {
+        Field processfield = FFmpegProcess.class.getDeclaredField("process");
+        processfield.setAccessible(true);
+        Process p = (Process)processfield.get(fp);
         Field pid = p.getClass().getDeclaredField("pid");
         pid.setAccessible(true);
         return pid.getInt(p);
     }
 
     /** 视频播放指令执行 rtsp地址【源播放地址】通过ffmpeg程序进行转化成rtmp，将地址传给flv.js进行播放 */
-    public static int videoPreview(String videoPath, String stream) throws NoSuchFieldException, IllegalAccessException {
+    public static FFmpegProcess videoPreview(String videoPath, String stream) throws NoSuchFieldException, IllegalAccessException {
         CommandUtil commandUtil = new CommandUtil();
+        FFmpegProcess process = null;
         int pid = -1;
         /*如果是winodws系统**/
         if (IS_WINDOWS) {
@@ -48,31 +57,34 @@ public class ProcessUtil {
                     + " -vcodec libx264 -r 25 -preset ultrafast -tune zerolatency -f flv -an rtmp://localhost:1935/myapp/"
                     + stream;
             log.info(cmd);
-            pid = commandUtil.winExec(cmd);
+            process = commandUtil.winExec(cmd);
+            pid = getProcessIdInWindows(process);
         }
         /*如果是Linux系统**/
         if (IS_LINUX){
             System.out.println("linux");
-            String cmd = "nohup ffmpeg -nostdin -rtsp_transport tcp -i '"
+            /*String cmd = "nohup ffmpeg -nostdin -rtsp_transport tcp -i '"
                     + ""
                     + videoPath
                     + "'"
                     + " "
                     + "-vcodec libx264 -r 25 -preset ultrafast -tune zerolatency -f flv -an rtmp://localhost:1935/myapp/"
                     + stream
-                    + " >> /dev/null 2>&1 </dev/null &";
-            pid = commandUtil.linuxExec(cmd);
+                    + " >> /dev/null 2>&1 </dev/null &";*/
+            String[] cmd = {"ffmpeg","-rtsp_transport","tcp","-i",videoPath,"-vcodec","libx264","-r","25","-preset","ultrafast","-tune","zerolatency","-f","flv","-an","rtmp://localhost:1935/myapp/"+stream};
+            process = commandUtil.linuxExec(cmd);
+            pid = getProcessIdInLinux(process);
         }
-        if(pid>0) {
+        if(process!=null) {
             log.info("启动推流进程成功，进程：" + pid);
         }else{
             log.warn("启动推流进程error");
         }
-        return pid;
+        return process;
     }
 
     /** 关闭ffmpeg进程*/
-    public static String close(int pid) {
+    public static String close(long pid) {
         //这里需要停止特定进程
         log.info("停止推流进程，进程"+pid);
         String cmd = "taskkill /f /t /pid " + pid;

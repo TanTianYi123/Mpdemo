@@ -1,5 +1,9 @@
 package com.example.mpdemo2.util;
 
+
+
+import com.example.mpdemo2.base.FFmpegProcess;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -11,12 +15,17 @@ import java.io.InputStreamReader;
 public class CommandUtil {
 
     /** 调用linux命令* */
-    public int linuxExec(String cmd) throws NoSuchFieldException, IllegalAccessException {
-        System.out.println("执行命令[ " + cmd + "]");
-        Runtime run = Runtime.getRuntime();
+    public FFmpegProcess linuxExec(String[] cmd) throws NoSuchFieldException, IllegalAccessException {
+        StringBuffer command = new StringBuffer();
+        for (String c : cmd){
+            command.append(c);
+            command.append(" ");
+        }
+        System.out.println("执行命令 " + command.toString() );
         try {
-            Process process = run.exec(cmd);
-            int pid = ProcessUtil.getProcessIdInLinux(process);
+            ProcessBuilder processBuilder = new ProcessBuilder(cmd);
+            Process process = processBuilder.start();
+
             /*String line;
             BufferedReader stdoutReader =
                     new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -30,23 +39,22 @@ public class CommandUtil {
                 e.printStackTrace();
             }
             process.destroy();*/
-            return pid;
+            return new FFmpegProcess(process);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return -1;
+        return null;
     }
     /** 调用windwos命令* */
-    public int winExec(String cmd) throws NoSuchFieldException, IllegalAccessException {
+    public FFmpegProcess winExec(String cmd) throws NoSuchFieldException, IllegalAccessException {
         Runtime runtime = Runtime.getRuntime();
         try {
             Process process = runtime.exec(cmd);
-            int pid = ProcessUtil.getProcessIdInWindows(process);
             new InputStreamReader(process.getInputStream());
-            return pid;
+            return new FFmpegProcess(process);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return -1;
+        return null;
     }
 }

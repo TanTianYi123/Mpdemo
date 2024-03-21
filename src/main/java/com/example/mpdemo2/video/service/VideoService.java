@@ -12,6 +12,15 @@ import java.util.List;
 * @createDate 2024-01-02 14:59:12
 */
 public interface VideoService extends IService<Video> {
+    public int insertVideo(String monitorName,
+                           String username,
+                           String password,
+                           String ip,
+                           String port,
+                           String description,
+                           boolean personAi,
+                           boolean carAi);
+    public void deleteVideo(String rtsp);
 
 
 

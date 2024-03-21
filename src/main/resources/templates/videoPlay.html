@@ -182,7 +182,7 @@
     /*<![CDATA[*/
     $(function(){
       var msg = /*[[${msg}]]*/null;
-      if(msg!=null){
+      if(msg!=null){F
         alert(msg);
       }
     })
@@ -191,7 +191,12 @@
   <script th:inline="javascript">
     $(document).ready(function() {
       var streams = [[${stream}]];
-      startVideo(streams);
+      var ip = [[${ip}]];
+      console.log("ip="+ip)
+      if(ip!=undefined){
+        startVideo(streams,ip);
+      }
+
     });
     //这是当关闭页面或浏览器的时候调用后台的方法把进程给停掉
     /*window.onbeforeunload = function(e) {

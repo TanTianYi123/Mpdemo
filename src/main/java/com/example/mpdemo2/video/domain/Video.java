@@ -46,4 +46,7 @@ public class Video implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public Video(Object o, String monitorName, String rtsp, String description, String stream, boolean personAi, boolean carAi) {
+    }
 }
